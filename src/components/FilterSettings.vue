@@ -1,7 +1,7 @@
 <template>
 <div class='FilterSettings'>
-    <div>
-        <select v-model="selected" multiple v-on:change="updateValue" class="breedsList block w-full bg-white border-2 border-gray-400 hover:border-gray-500 px-5 py-2 pr-10 rounded shadow focus:outline-none focus:shadow-outline tracking-wider h-64 text-sm">
+    <div class="flex justify-center items-center">
+        <select v-model="selected" multiple v-on:change="updateValue" class="breedsList block w-64 sm:w-10/12 bg-white border-2 border-gray-400 hover:border-gray-500 px-5 py-2 pr-10 rounded shadow focus:outline-none focus:shadow-outline tracking-wider h-64 text-sm">
             <option v-for="(name, id) in breeds" v-bind:value="id" v-bind:key="id">
                 {{ name  | uppercase}}
             </option>
@@ -9,18 +9,17 @@
     </div>
     <div class="chosenOptions m-6 flex flex-wrap justify-around">
         <label for="includeBreed">
-            <div class="flex items-center text-center h-24 w-64 m-4 border-2 rounded-md p-5 hover:shadow-2xl hover:bg-green-100  active:bg-green-300">
+            <div class="flex items-center text-center h-24 w-48 sm:w-64 m-4 border-2 rounded-md p-5 hover:shadow-2xl hover:bg-green-100 active:bg-green-300">
                 <input type="radio" id="includeBreed" value="includeBreed" v-model="picked" v-on:change="updateValue">
-                <p>I want the following breeds</p>
+                <p class="p-4">I want the following breeds</p>
             </div>
         </label>
         <label for="excludeBreed">
-            <div class="flex items-center text-center h-24 w-64 m-4 border-2 rounded-md p-5 hover:shadow-2xl hover:bg-green-100 active:bg-green-300">
+            <div class="flex items-center text-center h-24 w-48 sm:w-64 m-4 border-2 rounded-md p-5 hover:shadow-2xl hover:bg-green-100 active:bg-green-300">
                 <input type="radio" id="excludeBreed" value="excludeBreed" v-model="picked" v-on:change="updateValue">
                 <p>I want to exclude the following breeds</p>
             </div>
         </label>
-
     </div>
 
 </div>
@@ -30,8 +29,6 @@
 import axios from 'axios'
 export default {
     name: 'FilterSettings',
-    components: {},
-    props: {},
     data() {
         return {
             breeds: {
@@ -43,7 +40,6 @@ export default {
             loading: true,
         }
     },
-    computed: {},
     methods: {
         updateValue: function () {
             this.saveInLocalStorage();
@@ -56,17 +52,13 @@ export default {
         excludeBreed: function () {
             let allBreeds = Object.keys(this.breeds);
 
-            // 1
-            // return allBreeds.filter((breed) => this.selected.indexOf(breed) === -1)
-
-            // 2
             let result = [];
-            for (let i = 0; i < allBreeds.length; i++) {
-                let breed = allBreeds[i];
+
+            allBreeds.forEach((breed) => {
                 if (this.selected.indexOf(breed) === -1) {
                     result.push(breed);
                 }
-            }
+            })
             return result;
 
         },
@@ -82,7 +74,6 @@ export default {
             return value.toUpperCase();
         }
     },
-    watch: {},
     mounted() {
         axios
             .get('https://dog.ceo/api/breeds/list/all')
@@ -120,13 +111,3 @@ export default {
     }
 }
 </script>
-
-<style>
-input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-</style>
