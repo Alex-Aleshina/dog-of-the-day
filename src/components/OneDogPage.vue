@@ -8,8 +8,7 @@
             <img v-bind:src='info' alt='dog' class="imgOfDog rounded-md overflow-hidden shadow-2xl">
         </div>
     </div>
-    <div v-else>
-
+    <div v-else class="flex flex-col justify-center items-center">
         <div>
             <button class=" focus:outline-none m-6 bg-gray-400 text-white font-bold py-2 px-4 border-green-600 shadow-lg rounded w-64 tracking-wider">Fetch new image</button>
         </div>
